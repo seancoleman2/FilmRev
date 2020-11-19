@@ -1,6 +1,7 @@
 import React, {useState, useEffect, MouseEvent } from 'react';
 import EventEmitter from 'events';
-import Video, {Room, LocalParticipant, RemoteParticipant, LocalVideoTrack } from 'twilio-video';
+import Video, {Room, LocalParticipant, RemoteParticipant, LocalVideoTrack, Participant } from 'twilio-video';
+import FilmParticipant from './FilmParticipant'; 
 
 interface FilmRoomScreenProps {
   roomName: string;
@@ -27,7 +28,6 @@ export default function FilmRoom ({roomName, token, handleLogout}: FilmRoomScree
       room.on('participantConnected', participantConnected);
       room.on('participantDisconnected', participantDisconnected);
       room.participants.forEach(participantConnected);
-      console.log(room.localParticipant);
     });
 
     return () => {
@@ -47,7 +47,10 @@ export default function FilmRoom ({roomName, token, handleLogout}: FilmRoomScree
   }, [roomName, token]);
 
   const remoteParticipants = participants.map(participant => (
-    <p key={participant.sid}>{participant.identity}</p>
+    <FilmParticipant 
+      key={participant.sid} 
+      participant = {participant}
+    />
   )); 
 
   return (
@@ -56,7 +59,10 @@ export default function FilmRoom ({roomName, token, handleLogout}: FilmRoomScree
       <button onClick={handleLogout}>Log out</button>
       <div className="local-participant">
         {room ? (
-          <p key={localParticipant.sid}>{localParticipant.identity}</p>
+          <FilmParticipant 
+            key={localParticipant.sid}
+            participant = {localParticipant}
+          />
         ) : (
           ''
         )}
