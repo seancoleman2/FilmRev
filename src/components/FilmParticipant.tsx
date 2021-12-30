@@ -1,32 +1,79 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { Participant, VideoTrack, AudioTrack, VideoTrackPublication, AudioTrackPublication} from 'twilio-video';
+import React, { useState, useEffect, useRef } from "react";
+import {
+  Participant,
+  VideoTrack,
+  AudioTrack,
+  VideoTrackPublication,
+  AudioTrackPublication,
+} from "twilio-video";
+import { makeStyles, Typography, Box, Grid } from "@material-ui/core";
+
+const useStyles = makeStyles({
+  participant: {
+    position: "relative",
+  },
+  video: {
+    width: "100%",
+  },
+  name: {
+    position: "absolute",
+    top: "8px",
+    padding: "0.5em 0.5em 0.5em 2em",
+    background: "rgba(255,91,80,0.7)",
+    color: "#fff",
+    "line-height": 1,
+    left: 0,
+    margin: 0,
+    "&::after": {
+      content: '""',
+      height: 0,
+      width: 0,
+      position: "absolute",
+      top: 0,
+      right: "-2em",
+      border: "1em solid rgba(255,91,80,0.7)",
+      "border-right-color": "transparent",
+      "border-bottom-color": "transparent",
+    },
+  },
+});
 
 interface FilmParticipantProps {
-  participant: Participant
+  participant: Participant;
 }
 
-export default function FilmParticipant ({participant} : FilmParticipantProps) {
+export default function FilmParticipant({ participant }: FilmParticipantProps) {
   const [videoTracks, setVideoTracks] = useState<VideoTrack[] | []>([]);
   const [audioTracks, setAudioTracks] = useState<AudioTrack[] | []>([]);
 
   const videoRef = useRef<HTMLVideoElement>(null!);
   const audioRef = useRef<HTMLAudioElement>(null!);
 
-  const trackVideoPubsToTracks = function(trackMap : Map<string, VideoTrackPublication>): VideoTrack[] {
-    if (trackMap) {
-      return Array.from(trackMap.values()).map(publication => publication.track as VideoTrack).filter(track => track !== null);
-    } else {
-      return []
-    }
-  }
+  const classes = useStyles();
 
-  const trackAudioPubsToTracks = function(trackMap : Map<string, AudioTrackPublication>): AudioTrack[] {
+  const trackVideoPubsToTracks = function (
+    trackMap: Map<string, VideoTrackPublication>
+  ): VideoTrack[] {
     if (trackMap) {
-      return Array.from(trackMap.values()).map(publication => publication.track as AudioTrack).filter(track => track !== null);
+      return Array.from(trackMap.values())
+        .map((publication) => publication.track as VideoTrack)
+        .filter((track) => track !== null);
     } else {
-      return []
+      return [];
     }
-  }
+  };
+
+  const trackAudioPubsToTracks = function (
+    trackMap: Map<string, AudioTrackPublication>
+  ): AudioTrack[] {
+    if (trackMap) {
+      return Array.from(trackMap.values())
+        .map((publication) => publication.track as AudioTrack)
+        .filter((track) => track !== null);
+    } else {
+      return [];
+    }
+  };
 
   useEffect(() => {
     setVideoTracks(trackVideoPubsToTracks(participant.videoTracks));
@@ -79,11 +126,10 @@ export default function FilmParticipant ({participant} : FilmParticipantProps) {
   }, [audioTracks]);
 
   return (
-    <div className="participant">
-      <h3>{participant.identity}</h3>
-      <video ref={videoRef} autoPlay={true} />
+    <Box className={classes.participant}>
+      <h4 className={classes.name}>{participant.identity}</h4>
+      <video className={classes.video} ref={videoRef} autoPlay={true} />
       <audio ref={audioRef} autoPlay={true} muted={true} />
-    </div>
+    </Box>
   );
-
 }
