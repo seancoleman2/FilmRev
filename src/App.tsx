@@ -1,29 +1,30 @@
-import React from 'react';
-import AppLogo from './icons/app_icon.png';
-import { makeStyles, ThemeProvider} from '@material-ui/core';
-import theme from './theme';
-import FilmReviewSession from './components/FilmReviewSession';
-
+import React from "react";
+import AppLogo from "./icons/app_icon.png";
+import { makeStyles, ThemeProvider, Box } from "@material-ui/core";
+import theme from "./theme";
+import FilmReviewSession from "./components/FilmReviewSession";
 
 const useStyles = makeStyles({
   app: {
-    background: '#222C35', 
-    height: '100vh', 
-    padding: '15px'
-  }
-})
+    background: "#47515B",
+    height: "100%",
+  },
+  header: {
+    padding: "5px 15px 5px",
+  },
+});
 
 export default function App() {
-  const classes = useStyles(); 
+  const classes = useStyles();
 
   return (
     <div className={classes.app}>
-      <header>
-        <img src={AppLogo} className="app-icon"/>
+      <header className={classes.header}>
+        <img src={AppLogo} className="app-icon" />
       </header>
       <ThemeProvider theme={theme}>
-          <FilmReviewSession/>
+        <FilmReviewSession />
       </ThemeProvider>
     </div>
   );
-};
+}
