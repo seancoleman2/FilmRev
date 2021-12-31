@@ -32,7 +32,7 @@ const theme = createMuiTheme({
       color: "#FFFFFF",
     },
     h5: {
-      color: "#FFFFFF",
+      color: "#000000",
     },
     h6: {
       color: "#FFFFFF",

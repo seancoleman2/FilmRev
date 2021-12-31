@@ -69,7 +69,8 @@ export default function Lobby({
               FilmRev
             </Typography>
             <Typography variant="h6">
-              Remote film sessions to unlock your team's potential.
+              Level up your game with remote sessions from your favorite players
+              and coaches.
             </Typography>
           </Grid>
           <Grid item xs={6}>

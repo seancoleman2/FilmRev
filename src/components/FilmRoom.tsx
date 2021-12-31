@@ -7,9 +7,10 @@ import Video, {
   LocalVideoTrack,
   Participant,
 } from "twilio-video";
-import { makeStyles, Typography, Box, Grid } from "@material-ui/core";
+import { makeStyles, Typography, Box, Grid, Button } from "@material-ui/core";
 import FilmParticipant from "./FilmParticipant";
 import { VideoRoomMonitor } from "@twilio/video-room-monitor";
+import ReactPlayer from "react-player";
 
 const useStyles = makeStyles({
   session: {
@@ -20,6 +21,10 @@ const useStyles = makeStyles({
   },
   localParticipant: {},
   remoteParticipants: {},
+  coachesHeader: {},
+  logoutButton: {
+    float: "right",
+  },
 });
 
 interface FilmRoomScreenProps {
@@ -94,15 +99,29 @@ export default function FilmRoom({
 
   return (
     <Box ml={10} mr={10}>
-      <Typography variant="h4">Room: {room.name}</Typography>
-      <button onClick={handleLogout}>Leave</button>
+      <Typography variant="h4">Session: {room.name}</Typography>
+      <Button
+        onClick={handleLogout}
+        variant="contained"
+        type="submit"
+        color="primary"
+      >
+        Leave
+      </Button>
       <Grid container spacing={3} className={classes.gridContainer}>
-        <Grid item xs={8}>
-          <Box bgcolor="secondary.main" height="100%">
-            Film Media
+        <Grid item xs={9}>
+          <Box bgcolor="rgb(0,0,0)">
+            <ReactPlayer
+              url="https://www.youtube.com/watch?v=2Xy7Tl06S3Y"
+              width="100%"
+              height="720px"
+              playing
+              controls={false}
+              playIcon={<button>Play</button>}
+            />
           </Box>
         </Grid>
-        <Grid item xs={4}>
+        <Grid item xs={3}>
           <Box>
             <div className={classes.localParticipant}>
               {room ? (
@@ -114,9 +133,8 @@ export default function FilmRoom({
                 ""
               )}
             </div>
-            <h3>Remote Participants</h3>
+            <h3>Players</h3>
             <div className={classes.remoteParticipants}>
-              {console.log(remoteFilmParticipants)}
               {remoteFilmParticipants.length > 0 ? remoteFilmParticipants : []}
             </div>
           </Box>

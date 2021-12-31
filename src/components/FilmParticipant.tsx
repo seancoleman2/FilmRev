@@ -9,7 +9,7 @@ import {
 import { makeStyles, Typography, Box, Grid } from "@material-ui/core";
 
 const useStyles = makeStyles({
-  participant: {
+  coach: {
     position: "relative",
   },
   video: {
@@ -126,7 +126,7 @@ export default function FilmParticipant({ participant }: FilmParticipantProps) {
   }, [audioTracks]);
 
   return (
-    <Box className={classes.participant}>
+    <Box className={classes.coach}>
       <h4 className={classes.name}>{participant.identity}</h4>
       <video className={classes.video} ref={videoRef} autoPlay={true} />
       <audio ref={audioRef} autoPlay={true} muted={true} />
